@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">homework_21</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dollar">$</string>
+    <string name="not_found_items">Not Found Items</string>
+</resources>
