@@ -20,7 +20,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="kacija mia"
         android:textColor="@color/gray"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/ivProduct"
@@ -32,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="199"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvProductName"
@@ -45,6 +43,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/button_border_shape"
         app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
-        app:layout_constraintEnd_toEndOf="@+id/ivProduct" />
+        app:layout_constraintEnd_toEndOf="@+id/ivProduct"
+        android:importantForAccessibility="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

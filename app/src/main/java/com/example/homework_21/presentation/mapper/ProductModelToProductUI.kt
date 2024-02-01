@@ -1,9 +1,9 @@
 package com.example.homework_21.presentation.mapper
 
-import com.example.homework_21.domain.model.ProductModel
+import com.example.homework_21.domain.model.Product
 import com.example.homework_21.presentation.model.ProductUI
 
-fun ProductModel.toPresenter() =
+fun Product.toPresenter() =
     ProductUI(
         id = id,
         cover = cover,

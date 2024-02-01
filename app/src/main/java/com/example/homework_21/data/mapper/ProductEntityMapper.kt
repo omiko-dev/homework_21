@@ -1,9 +1,9 @@
-package com.example.homework_21.data.local.mapper
+package com.example.homework_21.data.mapper
 
 import com.example.homework_21.data.local.entity.ProductEntity
-import com.example.homework_21.domain.model.ProductModel
+import com.example.homework_21.domain.model.Product
 
-fun ProductModel.toData() =
+fun Product.asEntity() =
     ProductEntity(
         id = id,
         cover = cover,

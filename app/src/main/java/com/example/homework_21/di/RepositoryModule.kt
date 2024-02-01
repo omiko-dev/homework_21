@@ -1,12 +1,15 @@
 package com.example.homework_21.di
 
 import com.example.homework_21.data.common.HandleResource
+import com.example.homework_21.data.local.datasource.ProductLocalDataSource
+import com.example.homework_21.data.remote.datasource.ProductRemoteDataSource
 import com.example.homework_21.data.local.dao.ProductDao
-import com.example.homework_21.data.local.repository.ProductDbRepositoryImpl
-import com.example.homework_21.data.remote.repository.ProductRepositoryImpl
 import com.example.homework_21.data.remote.service.ProductService
-import com.example.homework_21.domain.local.repository.ProductDbRepository
-import com.example.homework_21.domain.remote.repository.ProductRepository
+import com.example.homework_21.data.local.datasource.ProductLocalDataSourceImpl
+import com.example.homework_21.data.remote.datasource.ProductRemoteDataSourceImpl
+import com.example.homework_21.data.repository.ProductRepositoryImpl
+import com.example.homework_21.data.util.NetworkConnectivityUtil
+import com.example.homework_21.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,14 +22,28 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideHandleResource(): HandleResource = HandleResource()
+    @Provides
+    @Singleton
+    fun provideProductLocalDataSource(productDao: ProductDao): ProductLocalDataSource =
+        ProductLocalDataSourceImpl(dao = productDao)
 
     @Provides
     @Singleton
-    fun provideProductRepository(productService: ProductService, handleResource: HandleResource): ProductRepository =
-        ProductRepositoryImpl(productService = productService, handleResource = handleResource)
+    fun provideProductRemoteDataSource(productService: ProductService, handleResource: HandleResource): ProductRemoteDataSource =
+        ProductRemoteDataSourceImpl(productService = productService, handleResource = handleResource)
+
+
 
     @Provides
     @Singleton
-    fun provideProductDbRepository(productDao: ProductDao): ProductDbRepository =
-        ProductDbRepositoryImpl(productDao = productDao)
+    fun provideProductRepository(
+        productLocalDataSource: ProductLocalDataSource,
+        productRemoteDataSource: ProductRemoteDataSource,
+        networkConnectivityUtil: NetworkConnectivityUtil
+    ): ProductRepository =
+        ProductRepositoryImpl(
+            productLocalDataSource = productLocalDataSource,
+            productRemoteDataSource = productRemoteDataSource,
+            networkConnectivityUtil = networkConnectivityUtil
+        )
 }

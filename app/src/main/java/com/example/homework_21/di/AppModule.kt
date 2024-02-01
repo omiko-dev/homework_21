@@ -2,9 +2,8 @@ package com.example.homework_21.di
 
 import android.content.Context
 import com.example.homework_21.BuildConfig
-import com.example.homework_21.data.common.util.NetworkConnectivityUtil
 import com.example.homework_21.data.remote.service.ProductService
-import com.example.homework_21.domain.util.NetworkConnectivity
+import com.example.homework_21.data.util.NetworkConnectivityUtil
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -24,7 +23,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNetworkConnectivity(@ApplicationContext context: Context): NetworkConnectivity =
+    fun provideNetworkConnectivityUtil(@ApplicationContext context: Context): NetworkConnectivityUtil =
         NetworkConnectivityUtil(context = context)
 
     @Provides
@@ -59,5 +58,4 @@ object AppModule {
     @Singleton
     fun provideProductService(retrofit: Retrofit): ProductService =
         retrofit.create(ProductService::class.java)
-
 }

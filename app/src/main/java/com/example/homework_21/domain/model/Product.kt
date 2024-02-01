@@ -1,6 +1,6 @@
 package com.example.homework_21.domain.model
 
-data class ProductModel (
+data class Product (
     val id: Int,
     val cover: String,
     val price: String,
