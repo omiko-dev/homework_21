@@ -1,6 +1,6 @@
-package com.example.homework_21.data.remote.model
+package com.example.homework_21.data.model
 
-data class NetworkProduct (
+data class ProductResponse (
     val id: Int,
     val cover: String,
     val price: String,

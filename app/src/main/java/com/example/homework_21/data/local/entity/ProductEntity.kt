@@ -10,5 +10,6 @@ data class ProductEntity(
     val cover: String,
     val price: String,
     val title: String,
-    val favorite: Boolean
+    val favorite: Boolean,
+    val category: String? = null
 )

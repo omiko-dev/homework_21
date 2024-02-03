@@ -4,11 +4,14 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("androidx.room")
 }
 
 android {
     namespace = "com.example.homework_21"
     compileSdk = 34
+
+
 
     defaultConfig {
         applicationId = "com.example.homework_21"
@@ -89,4 +92,8 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

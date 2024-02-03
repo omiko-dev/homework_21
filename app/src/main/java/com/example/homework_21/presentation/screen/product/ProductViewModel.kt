@@ -6,10 +6,11 @@ import com.example.homework_21.R
 import com.example.homework_21.data.common.Resource
 import com.example.homework_21.domain.usecase.GetProductUseCase
 import com.example.homework_21.presentation.mapper.toPresenter
+import com.example.homework_21.presentation.model.CategoryUI
 import com.example.homework_21.presentation.screen.product.event.ProductEvent
+import com.example.homework_21.presentation.state.CategoryState
 import com.example.homework_21.presentation.state.ProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,22 +24,42 @@ class ProductViewModel @Inject constructor(
     private var _productListStateFlow = MutableStateFlow(ProductState())
     val productListStateFlow = _productListStateFlow.asStateFlow()
 
+    private var _productCategoryListStateFlow = MutableStateFlow(CategoryState())
+    val productCategoryListStateFlow = _productCategoryListStateFlow.asStateFlow()
+
 
     fun onEvent(event: ProductEvent) {
         when (event) {
-            is ProductEvent.GetProductList -> getProduct()
+            is ProductEvent.GetProductList -> getProduct(event.category)
         }
     }
 
-    private fun getProduct() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getProduct(category: String?) {
+        viewModelScope.launch {
             getProductUseCase().collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
                         _productListStateFlow.update { state ->
+                            var product = resource.success.map { it.toPresenter() }
+                            category?.let { categoryValue ->
+                                product = product.filter { it.category == categoryValue }
+                            }
                             state.copy(
-                                products = resource.success.map { it.toPresenter() }
+                                products = product
                             )
+                        }
+
+
+                        _productCategoryListStateFlow.update { state ->
+                            val categoryList =
+                                resource.success.map {
+                                    CategoryUI(
+                                        categoryTitle = it.category,
+                                        categoryValue = it.category
+                                    )
+                                }
+                                    .distinctBy { it.categoryValue }.toMutableList()
+                            state.copy(categories = categoryList)
                         }
                     }
 
